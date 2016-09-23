@@ -1,0 +1,90 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="naiara.simao" id="0">
+		<tagDatabase tag="1.0" />
+	</changeSet>
+	
+	<changeSet id="0.1" author="naiara.simao">
+		<createSequence sequenceName="hibernate_sequence"/>
+	</changeSet>
+
+	<changeSet id="1" author="naiara.simao">
+		<createTable tableName="AIRPORT">
+			<column name="id" type="BIGINT"></column>
+			<column name="name" type="VARCHAR(256)"></column>
+			<column name="city" type="VARCHAR(256)"></column>
+			<column name="state" type="VARCHAR(256)"></column>
+			<column name="country" type="VARCHAR(256)"></column>
+			<column name="initials" type="VARCHAR(256)"></column>
+		</createTable>
+	</changeSet>
+	<changeSet id="1.1" author="naiara.simao">
+		<addPrimaryKey constraintName="pk_airport" tableName="AIRPORT"
+			columnNames="id" />
+	</changeSet>
+	<changeSet id="2" author="naiara.simao">
+		<createTable tableName="AIRPLANE">
+			<column name="id" type="BIGINT"></column>
+			<column name="inscription" type="VARCHAR(256)"></column>
+			<column name="model" type="VARCHAR(256)"></column>
+		</createTable>
+	</changeSet>
+	<changeSet id="2.1" author="naiara.simao">
+		<addPrimaryKey constraintName="pk_airplane" tableName="AIRPLANE"
+			columnNames="id" />
+	</changeSet>
+	<changeSet id="3" author="naiara.simao">
+		<createTable tableName="FLIGHT_INFO">
+			<column name="id" type="BIGINT"></column>
+			<column name="airport" type="BIGINT"></column>
+			<column name="date" type="TIMESTAMP"></column>
+		</createTable>
+	</changeSet>
+	<changeSet id="3.1" author="naiara.simao">
+		<addPrimaryKey constraintName="pk_flightinfo" tableName="FLIGHT_INFO"
+			columnNames="id" />
+	</changeSet>
+	<changeSet id="3.2" author="naiara.simao">
+		<addForeignKeyConstraint constraintName="fk_flightinfo"
+			referencedTableName="AIRPORT" baseColumnNames="airport"
+			baseTableName="FLIGHT_INFO" referencedColumnNames="id" />
+	</changeSet>
+	<changeSet id="4" author="naiara.simao">
+		<createTable tableName="FLIGHT">
+			<column name="id" type="BIGINT"></column>
+			<column name="code" type="VARCHAR(256)"></column>
+			<column name="departure" type="BIGINT"></column>
+			<column name="arrival" type="BIGINT"></column>
+			<column name="status" type="VARCHAR(256)"></column>
+			<column name="pilotname" type="VARCHAR(256)"></column>
+			<column name="airplane" type="BIGINT"></column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="4.1" author="naiara.simao">
+		<addPrimaryKey constraintName="pk_flight" tableName="FLIGHT"
+			columnNames="id" />
+	</changeSet>
+
+	<changeSet id="4.2" author="naiara.simao">
+		<addForeignKeyConstraint constraintName="fk_departure"
+			referencedTableName="FLIGHT_INFO" baseColumnNames="departure"
+			baseTableName="FLIGHT" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="4.3" author="naiara.simao">
+		<addForeignKeyConstraint constraintName="fk_arrival"
+			referencedTableName="FLIGHT_INFO" baseColumnNames="arrival"
+			baseTableName="FLIGHT" referencedColumnNames="id" />
+	</changeSet>
+	
+	<changeSet id="4.4" author="naiara.simao">
+		<addForeignKeyConstraint constraintName="fk_airplane"
+			referencedTableName="AIRPLANE" baseColumnNames="airplane"
+			baseTableName="FLIGHT" referencedColumnNames="id" />
+	</changeSet>
+
+	<include file="inserts.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

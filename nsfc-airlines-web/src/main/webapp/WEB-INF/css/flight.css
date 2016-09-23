@@ -1,0 +1,25 @@
+body {
+	background-color: #DFE7EC;
+}
+div.main {
+	margin: 5%;
+}
+
+table {
+	overflow: auto;
+	margin-top: 50px;
+}
+
+body.modal-open .row{
+    margin-top: 8px;
+}
+
+tr.selectFlights:hover {
+	cursor: pointer;
+}
+
+h2 {
+	padding: 20px;
+	text-align: center;
+	padding-bottom: 50px;
+}

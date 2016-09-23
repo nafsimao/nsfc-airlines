@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>NSFC Airlines - Flights Informations</title>
+<script type="text/javascript" src="lib/angular.min.js"></script>
+<script type="text/javascript" src="js/flights.js"></script>
+<script type="text/javascript" src="lib/ui-bootstrap-tpls-2.1.3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap.css"></link>
+<link rel="stylesheet" type="text/css" href="css/flight.css"></link>
+</head>
+<body>
+
+	<div class="main" ng-app="NSFCAirlinesApp"
+		ng-controller="NSFCAirlinesController">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label"> Horário de partida
+					entre: </label>
+				<div class="row">
+					<div class="col-sm-3">
+						<input ng-change="searchFlights()" class="form-control"
+							type="datetime-local" ng-model="filter.departure.dateTimeStart" />
+					</div>
+					<div class="col-sm-3">
+						<input ng-change="searchFlights()" class="form-control"
+							type="datetime-local" ng-model="filter.departure.dateTimeEnd" />
+					</div>
+				</div>
+
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"> Horário de chegada
+					entre: </label>
+				<div class="row">
+					<div class="col-sm-3">
+						<input ng-change="searchFlights()" class="form-control"
+							type="datetime-local" ng-model="filter.arrival.dateTimeStart" />
+					</div>
+					<div class="col-sm-3">
+						<input ng-change="searchFlights()" class="form-control"
+							type="datetime-local" ng-model="filter.arrival.dateTimeEnd" />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"> Aeroporto de partida:
+				</label>
+				<div class="col-sm-2">
+					<select ng-change="searchFlights()"
+						class="form-control input-sm col-sm-2" name="airports"
+						id="airports" ng-model="filter.departureAirportId">
+						<option />
+						<option label="{{departureAirport.initials}} - {{departureAirport.name}}"
+							value="{{departureAirport.id}}" ng-repeat="departureAirport in airports">{{departureAirport}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"> Aeroporto de chegada:
+				</label>
+				<div class="col-sm-2">
+					<select ng-change="searchFlights()"
+						class="form-control input-sm col-sm-2" name="airports"
+						id="airports" ng-model="filter.arrivalAirportId">
+						<option />
+						<option label="{{arrivalAirport.initials}} - {{arrivalAirport.name}}" 
+							value="{{arrivalAirport.id}}" ng-repeat="arrivalAirport in airports">{{arrivalAirport}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Status</label>
+				<div class="col-sm-2">
+					<select ng-change="searchFlights()" class="form-control input-sm"
+						name="status" id="status" ng-model="filter.status">
+						<option />
+						<option ng-repeat="option in status">{{option}}</option>
+					</select>
+				</div>
+			</div>
+		</form>
+		<table class="table">
+			<tr>
+				<th>Vôo</th>
+				<th>Partida</th>
+				<th>Chegada</th>
+				<th>Origem</th>
+				<th>Destino</th>
+				<th>Status</th>
+			</tr>
+			<tr ng-repeat="f in flights">
+				<td ng-click="open(f)">{{ f.code }}</td>
+				<td>{{ f.departure.date | date : "dd/MM/yyyy, HH:mm"}}</td>
+				<td>{{ f.arrival.date | date : "dd/MM/yyyy, HH:mm"}}</td>
+				<td>{{ f.departure.airport.initials }} - {{ f.departure.airport.name }}, {{ f.departure.airport.city
+					}}</td>
+				<td>{{ f.arrival.airport.initials }} - {{ f.arrival.airport.name }}, {{ f.arrival.airport.city }}
+				</td>
+				<td>{{ f.status }}</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
+
+
+
